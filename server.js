@@ -48,7 +48,7 @@ app.post("/count", async (req, res) => {
     res.json("Success");
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error", error);
+    res.status(500).send("Server Error"+error);
   }
 });
 
