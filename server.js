@@ -5,6 +5,8 @@ const bodyParser = require("body-parser");
 const app = express();
 const port = 3000;
 
+app.use(cors());
+
 const pool = new Pool({
   connectionString:
     "postgres://neondb_owner:npg_zSZ9yMjr0XDk@ep-proud-queen-a4djo8qr-pooler.us-east-1.aws.neon.tech/neondb",
@@ -48,7 +50,7 @@ app.post("/count", async (req, res) => {
     res.json("Success");
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error"+error);
+    res.status(500).send("Server Error" + error);
   }
 });
 
