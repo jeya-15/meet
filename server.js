@@ -28,8 +28,10 @@ app.get("/count", async (req, res) => {
 app.post("/count", async (req, res) => {
   const data = req.body; // Assuming the body is an object with key-value pairs of events and stars
 
-  if (typeof data !== 'object' || Object.keys(data).length === 0) {
-    return res.status(400).send("Request body must be a non-empty object with event-star pairs");
+  if (typeof data !== "object" || Object.keys(data).length === 0) {
+    return res
+      .status(400)
+      .send("Request body must be a non-empty object with event-star pairs");
   }
 
   const query = "INSERT INTO familymeeet (event, star) VALUES ($1, $2)";
@@ -46,10 +48,9 @@ app.post("/count", async (req, res) => {
     res.json("Success");
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(500).send("Server Error", error);
   }
 });
-
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
