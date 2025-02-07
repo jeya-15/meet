@@ -15,6 +15,16 @@ const pool = new Pool({
 
 app.use(bodyParser.json());
 
+app.get("/count", async (req, res) => {
+    try {
+      const result = await pool.query("SELECT * FROM familymeet");
+      res.json(result.rows);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Server Error");
+    }
+  });
+
 app.post("/count", async (req, res) => {
   const data = req.body;
   const query = `Insert into familymeet Values($1,$2)`;
