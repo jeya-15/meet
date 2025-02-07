@@ -26,18 +26,30 @@ app.get("/count", async (req, res) => {
 });
 
 app.post("/count", async (req, res) => {
-  const data = req.body;
-  const query = `Insert into familymeeet Values($1,$2)`;
+  const data = req.body; // Assuming the body is an object with key-value pairs of events and stars
+
+  if (typeof data !== 'object' || Object.keys(data).length === 0) {
+    return res.status(400).send("Request body must be a non-empty object with event-star pairs");
+  }
+
+  const query = "INSERT INTO familymeeet (event, star) VALUES ($1, $2)";
+
   try {
-    for (let [key, value] of Object.entries(data)) {
-      await pool.query(query, [key, value]);
+    // Iterate through the keys (event names) and insert each pair into the database
+    for (const [event, star] of Object.entries(data)) {
+      if (!star) {
+        return res.status(400).send(`Missing 'star' for ${event}`);
+      }
+      await pool.query(query, [event, star]); // Insert each event-star pair
     }
+
     res.json("Success");
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
   }
 });
+
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
