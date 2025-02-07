@@ -27,7 +27,7 @@ app.get("/count", async (req, res) => {
 
 app.post("/count", async (req, res) => {
   const data = req.body;
-  const query = `Insert into familymeet Values($1,$2)`;
+  const query = `Insert into familymeeet Values($1,$2)`;
   try {
     for (let [key, value] of Object.entries(data)) {
       await pool.query(query, [key, value]);
